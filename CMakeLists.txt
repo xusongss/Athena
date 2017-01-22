@@ -1,0 +1,176 @@
+cmake_minimum_required(VERSION 3.6)
+project(project)
+include (CheckIncludeFiles)
+set(CMAKE_CXX_STANDARD 11)
+#add_definitions(-Dandroid=Inspiry)
+add_definitions(-DANDROID_SMP=1)
+add_definitions(-DHAVE_POSIX_CLOCKS)
+CHECK_INCLUDE_FILES("pthread.h" HAVE_PTHREADS)
+CHECK_INCLUDE_FILES("sys/uio.h" HAVE_SYS_UIO_H)
+CHECK_INCLUDE_FILES("endian.h" HAVE_ENDIAN_H)
+if(HAVE_PTHREADS)
+    add_definitions(-DHAVE_PTHREADS)
+    message(STATUS "------have pthread.h")
+endif()
+if(HAVE_SYS_UIO_H)
+    add_definitions(-DHAVE_SYS_UIO_H)
+    message(STATUS "------have sys/uio.h")
+endif()
+if(HAVE_ENDIAN_H)
+    add_definitions(-DHAVE_ENDIAN_H)
+    message(STATUS "------have endian.h")
+endif()
+set(SOURCE_FILES
+        system/include/android/log.h
+        system/include/corkscrew/backtrace.h
+        system/include/corkscrew/demangle.h
+        system/include/corkscrew/map_info.h
+        system/include/corkscrew/ptrace.h
+        system/include/corkscrew/symbol_table.h
+        system/include/cutils/atomic-arm.h
+        system/include/cutils/atomic-inline.h
+        system/include/cutils/atomic-mips.h
+        system/include/cutils/atomic-x86.h
+        system/include/cutils/atomic.h
+        system/include/cutils/event_tag_map.h
+        system/include/cutils/log.h
+        system/include/cutils/logd.h
+        system/include/cutils/logger.h
+        system/include/cutils/logprint.h
+        system/include/cutils/properties.h
+        system/include/cutils/sched_policy.h
+        system/include/cutils/sockets.h
+        system/include/cutils/threads.h
+        system/include/cutils/uio.h
+        system/include/foundation/AAtomizer.h
+        system/include/foundation/ABase.h
+        system/include/foundation/ABitReader.h
+        system/include/foundation/ABuffer.h
+        system/include/foundation/ACrc16CCIT.h
+        system/include/foundation/ADebug.h
+        system/include/foundation/AHandler.h
+        system/include/foundation/AHandlerReflector.h
+        system/include/foundation/AHierarchicalStateMachine.h
+        system/include/foundation/ALooper.h
+        system/include/foundation/ALooperRoster.h
+        system/include/foundation/AMessage.h
+        system/include/foundation/AString.h
+        system/include/foundation/base64.h
+        system/include/foundation/hexdump.h
+        system/include/foundation/InspiryLog.h
+        system/include/proto/AProtoFactory.h
+        system/include/proto/ATProto.h
+        system/include/proto/BaseProto.h
+        system/include/proto/BLEControlHandler.h
+        system/include/proto/BLEControlProto.h
+        system/include/proto/Com.h
+        system/include/proto/InspiryBLEControl.h
+        system/include/proto/Inspirydefs.h
+        system/include/proto/InspiryMacSniff.h
+        system/include/proto/MacSniffingProto.h
+        system/include/proto/Proto.h
+        system/include/system/audio.h
+        system/include/system/audio_policy.h
+        system/include/system/camera.h
+        system/include/system/graphics.h
+        system/include/system/window.h
+        system/include/utils/AndroidThreads.h
+        system/include/utils/ashmem.h
+        system/include/utils/Atomic.h
+        system/include/utils/BasicHashtable.h
+        system/include/utils/BitSet.h
+        system/include/utils/BlobCache.h
+        system/include/utils/BufferedTextOutput.h
+        system/include/utils/ByteOrder.h
+        system/include/utils/CallStack.h
+        system/include/utils/Compat.h
+        system/include/utils/Condition.h
+        system/include/utils/Debug.h
+        system/include/utils/Endian.h
+        system/include/utils/Errors.h
+        system/include/utils/FileMap.h
+        system/include/utils/Flattenable.h
+        system/include/utils/Functor.h
+        system/include/utils/GenerationCache.h
+        system/include/utils/JenkinsHash.h
+        system/include/utils/KeyedVector.h
+        system/include/utils/LinearAllocator.h
+        system/include/utils/LinearTransform.h
+        system/include/utils/List.h
+        system/include/utils/Log.h
+        system/include/utils/Looper.h
+        system/include/utils/LruCache.h
+        system/include/utils/misc.h
+        system/include/utils/Mutex.h
+        system/include/utils/PropertyMap.h
+        system/include/utils/RefBase.h
+        system/include/utils/RWLock.h
+        system/include/utils/SharedBuffer.h
+        system/include/utils/Singleton.h
+        system/include/utils/SortedVector.h
+        system/include/utils/StopWatch.h
+        system/include/utils/String16.h
+        system/include/utils/String8.h
+        system/include/utils/StringArray.h
+        system/include/utils/StrongPointer.h
+        system/include/utils/SystemClock.h
+        system/include/utils/TextOutput.h
+        system/include/utils/Thread.h
+        system/include/utils/ThreadDefs.h
+        system/include/utils/threads.h
+        system/include/utils/Timers.h
+        system/include/utils/Tokenizer.h
+        system/include/utils/Trace.h
+        system/include/utils/TypeHelpers.h
+        system/include/utils/Unicode.h
+        system/include/utils/UniquePtr.h
+        system/include/utils/Vector.h
+        system/include/utils/VectorImpl.h
+        system/include/utils/WorkQueue.h
+        system/include/utils/ZipFileCRO.h
+        system/include/utils/ZipFileRO.h
+        system/include/utils/ZipUtils.h
+        system/libcutils/atomic.c
+        system/libcutils/loghack.h
+        system/libcutils/properties.c
+        system/libcutils/uio.c
+        system/libfoundation/AAtomizer.cpp
+        system/libfoundation/ABitReader.cpp
+        system/libfoundation/ABuffer.cpp
+        system/libfoundation/ACrc16CCIT.cpp
+        system/libfoundation/AHandler.cpp
+        system/libfoundation/AHierarchicalStateMachine.cpp
+        system/libfoundation/ALooper.cpp
+        system/libfoundation/ALooperRoster.cpp
+        system/libfoundation/AMessage.cpp
+        system/libfoundation/AString.cpp
+        system/libfoundation/base64.cpp
+        system/libfoundation/hexdump.cpp
+        system/liblog/event_tag_map.c
+        system/liblog/fake_log_device.c
+        system/liblog/logd_write.c
+        system/liblog/logprint.c
+        #system/libproto/ATProto.cpp
+        #system/libproto/BaseProto.cpp
+        #system/libproto/BLEControlHandler.cpp
+        #system/libproto/BLEControlProto.cpp
+        #system/libproto/Com.cpp
+        #system/libproto/InspiryBLEControl.cpp
+        #system/libproto/MacSniffingProto.cpp
+        #system/libproto/Proto.cpp
+        system/libutils/Debug.cpp
+        system/libutils/RefBase.cpp
+        system/libutils/SharedBuffer.cpp
+        system/libutils/TextOutput.cpp
+        system/libutils/Threads.cpp
+        system/libutils/Timers.cpp
+        system/libutils/VectorImpl.cpp
+       system/test/test_aloop.cpp
+        #system/test/test_atproto.cpp
+        #system/test/test_ble.c
+       # system/test/test_mutex.cpp
+        #system/test/test_proto.cpp
+        #system/test/test_thread.cpp
+        system/system.cpp)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/system/include)
+add_executable(project ${SOURCE_FILES})
